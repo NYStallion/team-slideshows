@@ -205,9 +205,11 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         
         .slideshow-container {
             position: relative;
-            width: 1920px;
-            height: 1080px;
+            width: 540px;
+            height: 600px;
             margin: 0 auto;
+            transform: scale(1.78);
+            transform-origin: center;
         }
         
         .slide {
@@ -215,7 +217,7 @@ function generateSlideshowHTML(teams, slideshowTitle) {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-size: cover;
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -233,28 +235,28 @@ function generateSlideshowHTML(teams, slideshowTitle) {
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             width: 80%;
-            max-width: 600px;
+            max-width: 400px;
         }
         
         .team-title {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .bird-name {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            margin-bottom: 15px;
             color: #FFD700;
         }
         
         .players-section {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .player {
-            font-size: 20px;
-            margin: 8px 0;
+            font-size: 14px;
+            margin: 6px 0;
         }
         
         .player.eliminated {
@@ -267,36 +269,36 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         }
         
         .observers-section {
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .observer {
-            font-size: 18px;
-            margin: 6px 0;
+            font-size: 12px;
+            margin: 4px 0;
             color: #FFA500;
         }
         
         .slideshow-header {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .last-updated {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
+            top: 10px;
+            right: 10px;
             background: rgba(0,0,0,0.7);
             color: white;
             padding: 5px 10px;
             border-radius: 3px;
             font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .last-updated {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 3px 6px;
+            border-radius: 2px;
+            font-size: 10px;
         }
     </style>
 </head>
