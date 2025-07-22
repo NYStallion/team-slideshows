@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Alive Teams</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            margin: 0 auto;
+        }
+        
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        .team-content {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            width: 80%;
+            max-width: 600px;
+        }
+        
+        .team-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .bird-name {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+        
+        .players-section {
+            margin-bottom: 15px;
+        }
+        
+        .player {
+            font-size: 20px;
+            margin: 8px 0;
+        }
+        
+        .player.eliminated {
+            color: #FF6B6B;
+            text-decoration: line-through;
+        }
+        
+        .player.alive {
+            color: #4ECDC4;
+        }
+        
+        .observers-section {
+            margin-top: 15px;
+        }
+        
+        .observer {
+            font-size: 18px;
+            margin: 6px 0;
+            color: #FFA500;
+        }
+        
+        .slideshow-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .last-updated {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-header">Alive Teams (30 teams)</div>
+    <div class="last-updated">Last updated: 7/22/2025, 7:18:44 AM</div>
+    <div class="slideshow-container">
+        
+        <div class="slide active" style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 1</div>
+                <div class="bird-name">The Sparrows</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Sparky7734 (Sparky7734)
+                      </div><div class="player alive">
+                        Player 2: TherealT89 (therealt1989)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: dgg4 (iamdgg4)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 2</div>
+                <div class="bird-name">The Starlings</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Peanutflush (Peanutflush)
+                      </div><div class="player alive">
+                        Player 2: WestTNCowboy (WestTNDave)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: royalbeagle (royalbeagle1)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 3</div>
+                <div class="bird-name">The Penguins</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: bigmthementalist (bigmthementalist)
+                      </div><div class="player alive">
+                        Player 2: MikeyMikeAZ (rimikeymikeaz)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Caligrinder (caligrinder)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 4</div>
+                <div class="bird-name">The Bluebirds</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: asibla1 (asibla1)
+                      </div><div class="player alive">
+                        Player 2: MoJoeDoe (MillionaireMojoe)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 5</div>
+                <div class="bird-name">The Roadrunners</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: BeerGutMike (BeerGutMike)
+                      </div><div class="player alive">
+                        Player 2: Elk400 (Elk4004)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 6</div>
+                <div class="bird-name">The Herons</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: bmd2007 (bmd2007a)
+                      </div><div class="player alive">
+                        Player 2: KManning91 (Chiefkeith91)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: RandyTegrity (RandyTegrity)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 7</div>
+                <div class="bird-name">The Owls</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: MstrssOFPoseidon (MaggieRunGOOD)
+                      </div><div class="player alive">
+                        Player 2: Nuttypoolog (Mahoodi1)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Slowsven (Slowssven)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 8</div>
+                <div class="bird-name">The Cuckoos</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: FireFighter911 (FireFighter__911)
+                      </div><div class="player alive">
+                        Player 2: RPH (RPHArp)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: DorothyDTM (ciaomyriver)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 9</div>
+                <div class="bird-name">The Ducks</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: 69grinder (69grinder)
+                      </div><div class="player alive">
+                        Player 2: zman77 (glenzim)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Hiles84 (hiles1984)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 10</div>
+                <div class="bird-name">The Orioles</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: wicked1oj (wicked1oj)
+                      </div><div class="player alive">
+                        Player 2: Yamahakilla (Yamahakilla)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Hoss (JWK24)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 11</div>
+                <div class="bird-name">The Ibises</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Beatbookie (beatbookie)
+                      </div><div class="player alive">
+                        Player 2: p0kerh0 (p0kerh0_)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: HuskerBrad (HuskerBrad)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 12</div>
+                <div class="bird-name">The Blackbirds</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Drew52786 (Drew52786)
+                      </div><div class="player alive">
+                        Player 2: LITVIN (litvin_one)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Missy1253 (SwiftyMissy1253)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 13</div>
+                <div class="bird-name">The Storks</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: FoldWinner (Bulldoggy)
+                      </div><div class="player alive">
+                        Player 2: Fireflyorange (Fireflyorange)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: _REM_ (NINArem)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 14</div>
+                <div class="bird-name">The Ravens</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: vvaves (Bubbabuoy)
+                      </div><div class="player alive">
+                        Player 2: Calico12 (calico12_)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Frost Advisory (FrostAdvisory)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 15</div>
+                <div class="bird-name">The Geese</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: DrHulp (drhulp)
+                      </div><div class="player alive">
+                        Player 2: snowman9 (snowmanwins)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Mb216 (mrb316)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 16</div>
+                <div class="bird-name">The Turkeys</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: jpars1988 (just_j0shua)
+                      </div><div class="player alive">
+                        Player 2: Unsub (TheLango)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Bradygoat (Gerbilnuts)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 17</div>
+                <div class="bird-name">The Petrels</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Scuba7 (Gbrad007)
+                      </div><div class="player alive">
+                        Player 2: TheNuts16 (thenuts16)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: worstglobally (teddyballgame61)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/partial.png')">
+            <div class="team-content">
+                <div class="team-title">Team 18</div>
+                <div class="bird-name">The Toucans</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Hollywood68 (Hollywood315)
+                      </div><div class="player eliminated">
+                        Player 2: Lizzie75 (Lizzie9575)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 19</div>
+                <div class="bird-name">The Cranes</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: MoltenAshes (MoltenAshes)
+                      </div><div class="player alive">
+                        Player 2: MrAAces (mraaces)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 20</div>
+                <div class="bird-name">The Hornbills</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Chawell (Chawell)
+                      </div><div class="player alive">
+                        Player 2: Mbadatpoker (Mbadbro1657)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Shenron7 (Shenron55)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 21</div>
+                <div class="bird-name">The Goldfinches</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Jungernaut747 (Jungernaut747)
+                      </div><div class="player alive">
+                        Player 2: Stoic415 (Stoic415)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 22</div>
+                <div class="bird-name">The Angry Birds</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Killerbird19 (Killerbird19)
+                      </div><div class="player alive">
+                        Player 2: playerdoris (playerdoris)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 23</div>
+                <div class="bird-name">The Robins</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Badgerbluff (Badgerbluff)
+                      </div><div class="player alive">
+                        Player 2: Jeremigo (Jeremigo)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 24</div>
+                <div class="bird-name">The Wrens</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Suited and boot it (Suited and boot it)
+                      </div><div class="player alive">
+                        Player 2: QBee2 (ThaBee)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Lily Whites (winterwren12)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 25</div>
+                <div class="bird-name">The Sandpiper</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: SwayzeXpress (Languidworker)
+                      </div><div class="player alive">
+                        Player 2: madwill444 (madwill444)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: kindness1 (gppoker)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 26</div>
+                <div class="bird-name">The Hummingbirds</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: reesescups1 (reesescup)
+                      </div><div class="player alive">
+                        Player 2: shockwave69 (shockley365)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: chico999 (jjlou2023)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 27</div>
+                <div class="bird-name">The Crows</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: bingoray (bingoray)
+                      </div><div class="player alive">
+                        Player 2: F4RTF4CE (f4rtf4ce4)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 29</div>
+                <div class="bird-name">The Puffins</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: scottyleeh (scottyleeh)
+                      </div><div class="player alive">
+                        Player 2: TheWitchDoctor (TheWitchDoctorz)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 30</div>
+                <div class="bird-name">The Petrels</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: Jimboslice101 (Jimboslice101010)
+                      </div><div class="player alive">
+                        Player 2: Neptune (Neptune22123)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: Conti1228 (Conti1228)
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide " style="background-image: url('./backgrounds/alive.png')">
+            <div class="team-content">
+                <div class="team-title">Team 31</div>
+                <div class="bird-name">The Mockingbirds</div>
+                
+                <div class="players-section">
+                    <div class="player alive">
+                        Player 1: BananaHamma (dwban)
+                      </div><div class="player alive">
+                        Player 2: errkster (errkster)
+                      </div>
+                </div>
+                
+                <div class="observers-section">
+                    <div class="observer">
+                        Observer: kingpoker455 (kingpoker4)
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance every 5 seconds
+        if (totalSlides > 1) {
+            setInterval(nextSlide, 5000);
+        }
+        
+        // Click to advance manually
+        document.addEventListener('click', nextSlide);
+    </script>
+</body>
+</html>
