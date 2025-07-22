@@ -1,0 +1,36 @@
+name: Update Team Slideshows
+
+on:
+  schedule:
+    # Runs every minute
+    - cron: '* * * * *'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update-slideshows:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm init -y
+        npm install node-fetch csv-parse
+        
+    - name: Generate slideshows
+      run: node generate-slideshows.js
+      
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --staged --quiet || git commit -m "Update slideshows - $(date)"
+        git push
