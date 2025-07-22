@@ -205,11 +205,12 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         
         .slideshow-container {
             position: relative;
-            width: 540px;
-            height: 600px;
+            width: 480px;
+            height: 533px;
             margin: 0 auto;
-            transform: scale(1.78);
+            transform: scale(2.0);
             transform-origin: center;
+            overflow: hidden;
         }
         
         .slide {
@@ -217,8 +218,8 @@ function generateSlideshowHTML(teams, slideshowTitle) {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-size: contain;
-            background-position: center;
+            background-size: cover;
+            background-position: center top;
             background-repeat: no-repeat;
         }
         
@@ -234,29 +235,34 @@ function generateSlideshowHTML(teams, slideshowTitle) {
             text-align: center;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            width: 80%;
-            max-width: 400px;
+            width: 90%;
+            max-width: 480px;
+            padding: 10px;
         }
         
         .team-title {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .bird-name {
-            font-size: 18px;
-            margin-bottom: 15px;
+            font-size: 30px;
+            margin-bottom: 12px;
             color: #FFD700;
         }
         
         .players-section {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .player {
-            font-size: 14px;
-            margin: 6px 0;
+            font-size: clamp(16px, 4vw, 24px);
+            margin: 5px 0;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         .player.eliminated {
@@ -269,13 +275,17 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         }
         
         .observers-section {
-            margin-top: 12px;
+            margin-top: 10px;
         }
         
         .observer {
-            font-size: 12px;
+            font-size: clamp(16px, 4vw, 24px);
             margin: 4px 0;
             color: #FFA500;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         .slideshow-header {
@@ -304,7 +314,7 @@ function generateSlideshowHTML(teams, slideshowTitle) {
 </head>
 <body>
     <div class="slideshow-header">${slideshowTitle} (${teams.length} teams)</div>
-    <div class="last-updated">Last updated: ${new Date().toLocaleString()}</div>
+    <div class="last-updated">Last updated: ${new Date().toLocaleString()} | Auto-refresh enabled</div>
     <div class="slideshow-container">
         ${teams.map((team, index) => {
           const status = getTeamStatus(team);
@@ -341,6 +351,8 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
+        let updatePending = false;
+        let slideCount = 0; // Track total slides shown
 
         function showSlide(index) {
             slides.forEach(slide => slide.classList.remove('active'));
@@ -351,16 +363,51 @@ function generateSlideshowHTML(teams, slideshowTitle) {
 
         function nextSlide() {
             currentSlide = (currentSlide + 1) % totalSlides;
+            slideCount++;
             showSlide(currentSlide);
+            
+            // Check if we've completed a full cycle and have a pending update
+            if (currentSlide === 0 && updatePending) {
+                console.log('Full slideshow cycle completed, refreshing for updates...');
+                window.location.reload();
+            }
         }
 
-        // Auto-advance every 5 seconds
+        // Calculate timing: 60 seconds divided by number of teams
+        const slideInterval = totalSlides > 0 ? Math.max(1000, (60 * 1000) / totalSlides) : 5000;
+        console.log(`Slideshow timing: ${slideInterval}ms per slide (${totalSlides} teams, ${(slideInterval/1000).toFixed(1)}s each)`);
+
+        // Auto-advance based on calculated timing
         if (totalSlides > 1) {
-            setInterval(nextSlide, 5000);
+            setInterval(nextSlide, slideInterval);
         }
         
         // Click to advance manually
         document.addEventListener('click', nextSlide);
+        
+        // Check for updates every 30 seconds
+        setInterval(checkForUpdates, 30000);
+        
+        function checkForUpdates() {
+            // Check if file has been modified
+            fetch(window.location.href + '?t=' + Date.now(), {
+                method: 'HEAD',
+                cache: 'no-cache'
+            }).then(response => {
+                const lastModified = response.headers.get('Last-Modified');
+                if (lastModified && lastModified !== document.lastModified) {
+                    console.log('Update detected, will refresh after current slideshow cycle completes');
+                    updatePending = true;
+                    
+                    // If we're currently on the last slide, refresh immediately
+                    if (currentSlide === totalSlides - 1) {
+                        console.log('On last slide, refreshing after next transition...');
+                    }
+                }
+            }).catch(error => {
+                console.log('Update check failed, will retry');
+            });
+        }
     </script>
 </body>
 </html>`;
