@@ -188,6 +188,39 @@ function getTeamStatus(team) {
   }
 }
 
+function generatePlaceholderHTML(title) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        .placeholder {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="placeholder">
+        <h1>${title}</h1>
+        <p>Data will appear here when available.</p>
+    </div>
+</body>
+</html>`;
+}
+
 function generateSlideshowHTML(teams, slideshowTitle) {
   return `<!DOCTYPE html>
 <html>
@@ -375,7 +408,7 @@ function generateSlideshowHTML(teams, slideshowTitle) {
 
         // Calculate timing: 60 seconds divided by number of teams
         const slideInterval = totalSlides > 0 ? Math.max(1000, (60 * 1000) / totalSlides) : 5000;
-        console.log(`Slideshow timing: ${slideInterval}ms per slide (${totalSlides} teams, ${(slideInterval/1000).toFixed(1)}s each)`);
+        console.log('Slideshow timing: ' + slideInterval + 'ms per slide (' + totalSlides + ' teams, ' + (slideInterval/1000).toFixed(1) + 's each)');
 
         // Auto-advance based on calculated timing
         if (totalSlides > 1) {
