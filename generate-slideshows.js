@@ -365,6 +365,7 @@ function generateSlideshowHTML(teams, slideshowTitle) {
 }
 
 async function main() {
+  console.log('=== STARTING SLIDESHOW GENERATION ===');
   console.log('Fetching team data...');
   
   // Fetch data from Google Sheets
@@ -372,22 +373,45 @@ async function main() {
   const teamsData = await fetchSheetData(SHEETS.TEAMS);
   
   console.log('Raw teams data length:', teamsData.length);
-  console.log('First few rows:', teamsData.slice(0, 5));
+  console.log('First few rows:', JSON.stringify(teamsData.slice(0, 10), null, 2));
   
   if (teamsData.length === 0) {
     console.log('No teams data found - creating empty HTML files as placeholders');
     
     // Create placeholder files
-    const placeholderHtml = generatePlaceholderHTML();
-    fs.writeFileSync('alive-teams.html', placeholderHtml('Alive Teams - No Data Yet'));
-    fs.writeFileSync('eliminated-teams.html', placeholderHtml('Eliminated Teams - No Data Yet'));
+    const aliveHtml = generatePlaceholderHTML('Alive Teams - No Data Yet');
+    const eliminatedHtml = generatePlaceholderHTML('Eliminated Teams - No Data Yet');
+    
+    fs.writeFileSync('alive-teams.html', aliveHtml);
+    fs.writeFileSync('eliminated-teams.html', eliminatedHtml);
     console.log('Created placeholder HTML files');
     return;
   }
   
   // Parse teams
+  console.log('=== PARSING TEAMS DATA ===');
   const allTeams = parseTeamsData(teamsData);
   console.log(`Found ${allTeams.length} teams`);
+  
+  if (allTeams.length === 0) {
+    console.log('No teams parsed - creating placeholder files');
+    const aliveHtml = generatePlaceholderHTML('Alive Teams - No Teams Found');
+    const eliminatedHtml = generatePlaceholderHTML('Eliminated Teams - No Teams Found');
+    
+    fs.writeFileSync('alive-teams.html', aliveHtml);
+    fs.writeFileSync('eliminated-teams.html', eliminatedHtml);
+    console.log('Created placeholder HTML files due to no teams');
+    return;
+  }
+  
+  // Log each team for debugging
+  allTeams.forEach((team, index) => {
+    console.log(`Team ${index + 1} (${team.number}): ${team.players.length} players, ${team.observers.length} observers`);
+    console.log(`  Bird: ${team.birdName}`);
+    team.players.forEach(player => {
+      console.log(`    ${player.role}: ${player.globalName} (eliminated: ${player.eliminated})`);
+    });
+  });
   
   // Separate alive and eliminated teams
   const aliveTeams = [];
@@ -398,6 +422,8 @@ async function main() {
       player.globalName !== 'None' && !player.eliminated
     );
     
+    console.log(`Team ${team.number}: hasAlivePlayer = ${hasAlivePlayer}`);
+    
     if (hasAlivePlayer) {
       aliveTeams.push(team);
     } else {
@@ -405,22 +431,47 @@ async function main() {
     }
   });
   
+  console.log(`=== TEAM CLASSIFICATION ===`);
   console.log(`Alive teams: ${aliveTeams.length}, Eliminated teams: ${eliminatedTeams.length}`);
   
-  // Generate HTML files
+  // Always generate both files (even if empty)
+  console.log('=== GENERATING HTML FILES ===');
+  
   if (aliveTeams.length > 0) {
     const aliveHtml = generateSlideshowHTML(aliveTeams, 'Alive Teams');
     fs.writeFileSync('alive-teams.html', aliveHtml);
-    console.log('Generated alive-teams.html');
+    console.log('Generated alive-teams.html with', aliveTeams.length, 'teams');
+  } else {
+    const aliveHtml = generatePlaceholderHTML('Alive Teams - No Alive Teams');
+    fs.writeFileSync('alive-teams.html', aliveHtml);
+    console.log('Generated alive-teams.html placeholder (no alive teams)');
   }
   
   if (eliminatedTeams.length > 0) {
     const eliminatedHtml = generateSlideshowHTML(eliminatedTeams, 'Eliminated Teams');
     fs.writeFileSync('eliminated-teams.html', eliminatedHtml);
-    console.log('Generated eliminated-teams.html');
+    console.log('Generated eliminated-teams.html with', eliminatedTeams.length, 'teams');
+  } else {
+    const eliminatedHtml = generatePlaceholderHTML('Eliminated Teams - No Eliminated Teams');
+    fs.writeFileSync('eliminated-teams.html', eliminatedHtml);
+    console.log('Generated eliminated-teams.html placeholder (no eliminated teams)');
   }
   
-  console.log('Slideshow generation complete!');
+  console.log('=== SLIDESHOW GENERATION COMPLETE ===');
+  
+  // Verify files were created
+  try {
+    const aliveStats = fs.statSync('alive-teams.html');
+    const eliminatedStats = fs.statSync('eliminated-teams.html');
+    console.log(`alive-teams.html: ${aliveStats.size} bytes`);
+    console.log(`eliminated-teams.html: ${eliminatedStats.size} bytes`);
+  } catch (error) {
+    console.error('Error checking file stats:', error.message);
+  }
 }
 
-main().catch(console.error);
+main().catch(error => {
+  console.error('=== ERROR IN MAIN FUNCTION ===');
+  console.error(error);
+  process.exit(1);
+});
