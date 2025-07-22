@@ -1,5 +1,5 @@
 const fs = require('fs');
-const fetch = require('node-fetch');
+const https = require('https');
 
 // Configuration
 const SPREADSHEET_ID = '1xaj-khNOUoX8c8jFsutmW8oQtlJp5LCVCpYr7tIoZio';
@@ -18,60 +18,76 @@ const BACKGROUNDS = {
   eliminated: './backgrounds/eliminated.png'
 };
 
-async function fetchSheetData(sheetName) {
-  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
-  
-  console.log(`Fetching data from: ${url}`);
-  
-  try {
-    const response = await fetch(url);
-    console.log(`Response status: ${response.status}`);
+function fetchSheetData(sheetName) {
+  return new Promise((resolve, reject) => {
+    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
     
-    if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
-      return [];
-    }
+    console.log(`Fetching data from: ${url}`);
     
-    const csvText = await response.text();
-    console.log(`CSV text length: ${csvText.length}`);
-    console.log(`First 200 characters: ${csvText.substring(0, 200)}`);
-    
-    // Check if response is an error page
-    if (csvText.includes('<!DOCTYPE html>') || csvText.includes('<html')) {
-      console.error('Received HTML instead of CSV - likely permission error');
-      return [];
-    }
-    
-    // Parse CSV manually (simple approach)
-    const lines = csvText.split('\n').map(line => {
-      // Simple CSV parsing - handles quoted fields
-      const result = [];
-      let current = '';
-      let inQuotes = false;
+    https.get(url, (response) => {
+      console.log(`Response status: ${response.statusCode}`);
       
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current.trim().replace(/^"|"$/g, ''));
-          current = '';
-        } else {
-          current += char;
-        }
+      if (response.statusCode !== 200) {
+        console.error(`HTTP error! status: ${response.statusCode}`);
+        resolve([]);
+        return;
       }
-      result.push(current.trim().replace(/^"|"$/g, ''));
-      return result;
+      
+      let csvText = '';
+      
+      response.on('data', (chunk) => {
+        csvText += chunk;
+      });
+      
+      response.on('end', () => {
+        try {
+          console.log(`CSV text length: ${csvText.length}`);
+          console.log(`First 200 characters: ${csvText.substring(0, 200)}`);
+          
+          // Check if response is an error page
+          if (csvText.includes('<!DOCTYPE html>') || csvText.includes('<html')) {
+            console.error('Received HTML instead of CSV - likely permission error');
+            resolve([]);
+            return;
+          }
+          
+          // Parse CSV manually (simple approach)
+          const lines = csvText.split('\n').map(line => {
+            // Simple CSV parsing - handles quoted fields
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+              const char = line[i];
+              if (char === '"') {
+                inQuotes = !inQuotes;
+              } else if (char === ',' && !inQuotes) {
+                result.push(current.trim().replace(/^"|"$/g, ''));
+                current = '';
+              } else {
+                current += char;
+              }
+            }
+            result.push(current.trim().replace(/^"|"$/g, ''));
+            return result;
+          });
+          
+          const filteredLines = lines.filter(line => line.some(cell => cell.length > 0));
+          console.log(`Parsed ${filteredLines.length} rows from ${sheetName}`);
+          
+          resolve(filteredLines);
+        } catch (error) {
+          console.error(`Error parsing CSV from ${sheetName}:`, error.message);
+          resolve([]);
+        }
+      });
+      
+    }).on('error', (error) => {
+      console.error(`Error fetching ${sheetName}:`, error.message);
+      resolve([]);
     });
-    
-    const filteredLines = lines.filter(line => line.some(cell => cell.length > 0));
-    console.log(`Parsed ${filteredLines.length} rows from ${sheetName}`);
-    
-    return filteredLines;
-  } catch (error) {
-    console.error(`Error fetching ${sheetName}:`, error.message);
-    return [];
-  }
+  });
 }
 
 function parseTeamsData(teamsData) {
