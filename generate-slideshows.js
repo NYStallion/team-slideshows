@@ -418,8 +418,8 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         // Click to advance manually
         document.addEventListener('click', nextSlide);
         
-        // Check for updates every 30 seconds
-        setInterval(checkForUpdates, 30000);
+        // Check for updates every 60 seconds
+        setInterval(checkForUpdates, 60000);
         
         function checkForUpdates() {
             // Check if file has been modified
