@@ -60,11 +60,3 @@ jobs:
           git commit -m "Auto-update team slideshows - $(date)"
           git push
         fi
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
-        publish_branch: gh-pages
