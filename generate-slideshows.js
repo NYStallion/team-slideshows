@@ -262,14 +262,14 @@ function generateSlideshowHTML(teams, slideshowTitle) {
         
         .team-content {
             position: absolute;
-            top: 60%;
+            top: calc(60% + 30px);
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            width: 90%;
-            max-width: 480px;
+            width: calc(90% - 40px);
+            max-width: 440px;
             padding: 10px;
         }
         
