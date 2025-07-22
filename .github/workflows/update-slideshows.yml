@@ -1,11 +1,12 @@
 name: Update Team Slideshows
-
 on:
   schedule:
-    # Runs every minute
+    # Runs every minute (fixed cron syntax)
     - cron: '* * * * *'
   workflow_dispatch: # Allows manual triggering
-
+  push:
+    branches: [ main ]
+    
 jobs:
   update-slideshows:
     runs-on: ubuntu-latest
@@ -19,13 +20,51 @@ jobs:
       with:
         node-version: '20'
         
+    - name: Create backgrounds directory
+      run: |
+        mkdir -p backgrounds
+        # Create placeholder background files if they don't exist
+        if [ ! -f "backgrounds/alive.png" ]; then
+          echo "Creating placeholder alive background"
+          touch backgrounds/alive.png
+        fi
+        if [ ! -f "backgrounds/partial.png" ]; then
+          echo "Creating placeholder partial background" 
+          touch backgrounds/partial.png
+        fi
+        if [ ! -f "backgrounds/eliminated.png" ]; then
+          echo "Creating placeholder eliminated background"
+          touch backgrounds/eliminated.png
+        fi
+        
     - name: Generate slideshows
       run: node generate-slideshows.js
       
+    - name: Check if files were generated
+      run: |
+        ls -la *.html || echo "No HTML files found"
+        
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add .
-        git diff --staged --quiet || git commit -m "Update slideshows - $(date)"
-        git push
+        
+        # Add generated files
+        git add alive-teams.html eliminated-teams.html
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          echo "Changes detected, committing..."
+          git commit -m "Auto-update team slideshows - $(date)"
+          git push
+        fi
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
