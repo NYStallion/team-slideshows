@@ -2,7 +2,7 @@ name: Update Team Slideshows
 on:
   schedule:
     # Runs every minute (fixed cron syntax)
-    - cron: '0 * * * *'
+    - cron: '*/1.5 * * * *'
   workflow_dispatch: # Allows manual triggering
   push:
     branches: [ main ]
