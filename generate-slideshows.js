@@ -21,9 +21,26 @@ const BACKGROUNDS = {
 async function fetchSheetData(sheetName) {
   const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
   
+  console.log(`Fetching data from: ${url}`);
+  
   try {
     const response = await fetch(url);
+    console.log(`Response status: ${response.status}`);
+    
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+      return [];
+    }
+    
     const csvText = await response.text();
+    console.log(`CSV text length: ${csvText.length}`);
+    console.log(`First 200 characters: ${csvText.substring(0, 200)}`);
+    
+    // Check if response is an error page
+    if (csvText.includes('<!DOCTYPE html>') || csvText.includes('<html')) {
+      console.error('Received HTML instead of CSV - likely permission error');
+      return [];
+    }
     
     // Parse CSV manually (simple approach)
     const lines = csvText.split('\n').map(line => {
@@ -47,9 +64,12 @@ async function fetchSheetData(sheetName) {
       return result;
     });
     
-    return lines.filter(line => line.some(cell => cell.length > 0));
+    const filteredLines = lines.filter(line => line.some(cell => cell.length > 0));
+    console.log(`Parsed ${filteredLines.length} rows from ${sheetName}`);
+    
+    return filteredLines;
   } catch (error) {
-    console.error(`Error fetching ${sheetName}:`, error);
+    console.error(`Error fetching ${sheetName}:`, error.message);
     return [];
   }
 }
@@ -304,10 +324,20 @@ async function main() {
   console.log('Fetching team data...');
   
   // Fetch data from Google Sheets
+  console.log('Attempting to fetch Teams data...');
   const teamsData = await fetchSheetData(SHEETS.TEAMS);
   
+  console.log('Raw teams data length:', teamsData.length);
+  console.log('First few rows:', teamsData.slice(0, 5));
+  
   if (teamsData.length === 0) {
-    console.log('No teams data found');
+    console.log('No teams data found - creating empty HTML files as placeholders');
+    
+    // Create placeholder files
+    const placeholderHtml = generatePlaceholderHTML();
+    fs.writeFileSync('alive-teams.html', placeholderHtml('Alive Teams - No Data Yet'));
+    fs.writeFileSync('eliminated-teams.html', placeholderHtml('Eliminated Teams - No Data Yet'));
+    console.log('Created placeholder HTML files');
     return;
   }
   
