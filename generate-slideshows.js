@@ -77,11 +77,17 @@ async function fetchSheetData(sheetName) {
 function parseTeamsData(teamsData) {
   const teams = [];
   
+  console.log('Parsing teams data with multi-row format...');
+  
   for (let i = 0; i < teamsData.length; i++) {
     const row = teamsData[i];
-    if (row[0] && row[0].startsWith('Team ')) {
+    
+    // Look for team header rows (e.g., "Team 1")
+    if (row[0] && row[0].toString().startsWith('Team ')) {
+      console.log(`Found team header: ${row[0]}`);
+      
       const teamNumber = row[0].replace('Team ', '');
-      const birdName = row[1] || '';
+      const birdName = row[1] || ''; // Bird name is in column B of team header
       
       const team = {
         number: teamNumber,
@@ -90,13 +96,28 @@ function parseTeamsData(teamsData) {
         observers: []
       };
       
-      // Parse next 6 rows for team members
-      for (let j = i + 1; j < Math.min(i + 7, teamsData.length); j++) {
+      // Parse the next several rows for team members
+      // Skip the header row (Global Name, Twitch Name)
+      let j = i + 1;
+      if (j < teamsData.length && teamsData[j][1] === 'Global Name') {
+        j++; // Skip header row
+      }
+      
+      // Parse member rows until we hit another team or run out of data
+      while (j < teamsData.length) {
         const memberRow = teamsData[j];
-        const role = memberRow[0] || '';
+        const role = memberRow[0] ? memberRow[0].toString().trim() : '';
+        
+        // Stop if we hit another team or empty row
+        if (role.startsWith('Team ') || (!role && !memberRow[1] && !memberRow[2])) {
+          break;
+        }
+        
         const globalName = memberRow[1] || 'None';
         const twitchName = memberRow[2] || 'None';
         const status = memberRow[3] || '';
+        
+        console.log(`  ${role}: ${globalName} (${twitchName}) - Status: ${status}`);
         
         if (role === 'Player 1' || role === 'Player 2') {
           team.players.push({
@@ -112,12 +133,19 @@ function parseTeamsData(teamsData) {
             twitchName
           });
         }
+        
+        j++;
       }
       
+      console.log(`Team ${teamNumber} parsed: ${team.players.length} players, ${team.observers.length} observers`);
       teams.push(team);
+      
+      // Continue from where we left off
+      i = j - 1; // -1 because the for loop will increment
     }
   }
   
+  console.log(`Successfully parsed ${teams.length} teams`);
   return teams;
 }
 
